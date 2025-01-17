@@ -61,7 +61,7 @@ class AppDataBase{
 
     Future<bool>deleteNotes(int id)async {
     var d4=await getDb();
-    int deletedRows=await d4.delete(NOTES_TABLE,where: "$NOTES_COLUMN_ID=?", whereArgs:["$id"] );
+    int deletedRows=await d4.delete(NOTES_TABLE,where: "$NOTES_COLUMN_ID=?", whereArgs:[id] );
     return deletedRows>0;
     }
 
