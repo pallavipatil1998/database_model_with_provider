@@ -90,15 +90,54 @@ class _HomePageState extends State<HomePage> {
             itemCount: provider.pGetNotes().length,
               itemBuilder: (ctx,index){
               var currData=provider.pGetNotes()[index];
-                return ListTile(
-                  title:  Text(currData.title),
-                  subtitle: Text(currData.desc),
-                  trailing: InkWell(
-                     onTap: (){
-                       provider.pDeleteNote(currData.note_id!);
+                return InkWell(
+                  onTap: (){
+                    titleController.text=currData.title;
+                    descController.text=currData.desc;
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (ctx){
+                          return Container(
+                              child: Column(
+                                children: [
+                                  Text("Update Notes"),
+                                  TextField(
+                                    controller: titleController,
+                                    decoration: InputDecoration(label: Text("Title")),
+                                  ),
+                                  TextField(
+                                    controller: descController,
+                                    decoration: InputDecoration(label: Text("desc")),
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: (){
+                                        var nTitle=titleController.text.toString();
+                                        var nDesc=descController.text.toString();
+                                        //provider fun
+                                       provider.pUpdateNote(NoteModel(note_id: currData.note_id,title: nTitle, desc: nDesc));
+                                        titleController.clear();
+                                        descController.clear();
+                                        Navigator.pop(context);
 
-                     },
-                      child: Icon(Icons.delete)
+                                      },
+                                      child: Text("Update")
+                                  )
+                                ],
+                              )
+                          );
+                        }
+                    );
+                  },
+                  child: ListTile(
+                    title:  Text(currData.title),
+                    subtitle: Text(currData.desc),
+                    trailing: InkWell(
+                       onTap: (){
+                         provider.pDeleteNote(currData.note_id!);
+
+                       },
+                        child: Icon(Icons.delete)
+                    ),
                   ),
                 );
               }

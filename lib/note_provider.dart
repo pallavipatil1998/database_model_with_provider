@@ -11,14 +11,20 @@ class NoteProvider extends ChangeNotifier {
   pAddNote(NoteModel newNote)async{
    var check=await pDB.addNote(newNote);
    if(check){
-     _prNoteList.add(newNote);
+     // _prNoteList.add(newNote);
+     // notifyListeners();
+     pFetchInitialNote();
    }
-    notifyListeners();
+
   }
 
 
   pUpdateNote(NoteModel note)async{
    await pDB.updateNote(note);
+   int index = _prNoteList.indexWhere((n) => n.note_id == note.note_id);
+   if (index != -1) {
+     _prNoteList[index] = note;
+   }
     notifyListeners();
   }
 
