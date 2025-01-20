@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_modelclass_database/add_update_note.dart';
 import 'package:provider_modelclass_database/note_provider.dart';
@@ -38,12 +37,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getInitialNotes(context);
-  // }
 
   //provider Functions
   void getInitialNotes(BuildContext context){
@@ -61,6 +54,7 @@ class _HomePageState extends State<HomePage> {
             itemCount: provider.pGetNotes().length,
               itemBuilder: (ctx,index){
               var currData=provider.pGetNotes()[index];
+              print(currData);
                 return InkWell(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>AddUpdateNote(isUpdate: true,note_id: currData.note_id,title: currData.title,desc: currData.desc,),));

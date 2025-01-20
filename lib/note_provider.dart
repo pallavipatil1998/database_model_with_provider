@@ -8,6 +8,17 @@ class NoteProvider extends ChangeNotifier {
   AppDataBase pDB=AppDataBase.db;
 
 
+
+  pFetchInitialNote()async{
+    _prNoteList = await pDB.fetchAllNotes();
+    notifyListeners();
+  }
+
+  List<NoteModel>pGetNotes(){
+    return _prNoteList;
+
+  }
+
   pAddNote(NoteModel newNote)async{
    var check=await pDB.addNote(newNote);
    if(check){
@@ -20,29 +31,20 @@ class NoteProvider extends ChangeNotifier {
 
 
   pUpdateNote(NoteModel note)async{
-   await pDB.updateNote(note);
-   int index = _prNoteList.indexWhere((n) => n.note_id == note.note_id);
-   if (index != -1) {
-     _prNoteList[index] = note;
+   var cheks = await pDB.updateNote(note);
+   if(cheks){
+     pFetchInitialNote();
    }
-    notifyListeners();
   }
 
   pDeleteNote(int id)async{
-    await pDB.deleteNotes(id);
-    _prNoteList.removeWhere((note) => note.note_id == id);
-    notifyListeners();
+    var result=await pDB.deleteNotes(id);
+    if(result){
+      pFetchInitialNote();
+    }
   }
 
-  pFetchInitialNote()async{
-  _prNoteList = await pDB.fetchAllNotes();
-   notifyListeners();
-  }
 
-  List<NoteModel>pGetNotes(){
-    return _prNoteList;
-
-  }
 
 
 }

@@ -35,8 +35,6 @@ class AppDataBase{
         onCreate: (db, version) {
           db.execute("create table $NOTES_TABLE($NOTES_COLUMN_ID integer primary key autoincrement, $NOTES_COLUMN_TITLE text, $NOTES_COLUMN_DESC text)");
 
-          // db.execute(
-          //     "create table $NOTES_TABLE($NOTES_COLUMN_ID integer primary key autoincrement, $NOTES_COLUMN_TITLE text,$NOTES_COLUMN_DESC)");
         }
     );
   }
